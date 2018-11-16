@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import com.revature.pojo.BankUser;
 import com.revature.pojo.User;
 import com.revature.service.BankUserService;
+import com.revature.service.UserService;
 
 /*
  * The following annotation eliminates the need for registering
@@ -29,7 +30,7 @@ import com.revature.service.BankUserService;
 //@WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 
-	static BankUserService uService = new BankUserService();
+	static UserService uService = new UserService();
 	
 	@Override
 		protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -48,7 +49,7 @@ public class LoginServlet extends HttpServlet {
 		
 		System.out.println(username + password);
 		//consult user service to obtain User with this info
-		BankUser user = uService.validateUser(username, password);
+		User user = uService.validateUser(username, password);
 		//List<BankUser> user = uService.getAllUsers();
 		System.out.println(user);
 		

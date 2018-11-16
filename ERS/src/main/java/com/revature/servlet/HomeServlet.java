@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
-import com.revature.pojo.BankUser;
+import com.revature.pojo.User;
 
 @WebServlet("/home")
 public class HomeServlet extends HttpServlet {
@@ -26,7 +26,7 @@ public class HomeServlet extends HttpServlet {
 		HttpSession session = req.getSession();
 		logger.trace("IN HOMESERVLET SESSION: " + session.getId());
 		
-		BankUser user = (BankUser) session.getAttribute("user");
+		User user = (User) session.getAttribute("user");
 		
 		if(user == null) {
 			//redirect to login page

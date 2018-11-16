@@ -11,17 +11,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.revature.pojo.BankUser;
 import com.revature.pojo.User;
-import com.revature.service.BankUserService;
 import com.revature.service.UserService;
 import org.apache.log4j.Logger;
 
-@WebServlet("/user")
+@WebServlet("/users")
 public class UserServlet extends HttpServlet {
 
 	
-	static BankUserService uService = new BankUserService();
+	static UserService uService = new UserService();
 	
 	private static Logger log = Logger.getLogger(UserServlet.class);
 	
@@ -30,7 +28,8 @@ public class UserServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		log.trace("SERVLET IN USERSERVLET");
 		//consult service for data
-		List<BankUser> users = uService.getAllUsers();
+		List<User> users = uService.getAllUsers();
+		
 		//convert to json
 		ObjectMapper mapper = new ObjectMapper();
 		String json = mapper.writeValueAsString(users);

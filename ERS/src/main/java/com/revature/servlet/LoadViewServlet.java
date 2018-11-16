@@ -24,14 +24,13 @@ public class LoadViewServlet extends HttpServlet {
 	static String process(HttpServletRequest req, HttpServletResponse resp) {
 		log.info("LOAD VIEW REQUEST SENT TO: " + req.getRequestURI());
 		switch(req.getRequestURI()) {
+		case "/ERS/home.view":
+			return "home";
 		case "/ERS/user.view":
 			return "users";
-//		case "/bookstore-fullstack/book.view":
-//			return "books";
-//		case "/bookstore-fullstack/genre.view":
-//			return "genres";
-//		case "/bookstore-fullstack/author.view":
-//			return "authors";
+		case "/ERS/reimbursement.view":
+			return "reimbursements";
+
 		}
 		
 		return null;

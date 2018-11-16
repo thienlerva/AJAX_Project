@@ -19,6 +19,7 @@ public class BankUserService {
 		List<BankUser> users = userDao.findAll();
 		
 		if(users.size() == 0) return null;
+		
 		return users;
 	}
 	

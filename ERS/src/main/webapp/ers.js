@@ -1,8 +1,8 @@
 window.onload = function(){
 	loadHomeView();
 	$('#homeNav').on('click', loadHomeView);
-	$('#booksNav').on('click', loadBooksView);
-	$('#genreNav').on('click', loadGenreView);
+	$('#viewTicketsNav').on('click', loadTicketsView);
+	$('#userNav').on('click', loadUserView);
 	$('#authorNav').on('click', loadAuthorView);
 
 }
@@ -29,85 +29,102 @@ function loadHomeView(){
 	xhr.send();	
 }
 
-function loadBooksView(){
+function loadTicketsView(){
 	var xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = function(){
 		if(xhr.readyState == 4 && xhr.status == 200){
 			//do things w response
 			$('#view').html(xhr.responseText);
-		}
-	}
-	xhr.open("GET", "book.view", true);
-	xhr.send();	
-}
-
-function loadGenreView(){
-	var xhr = new XMLHttpRequest();
-	xhr.onreadystatechange = function(){
-		if(xhr.readyState == 4 && xhr.status == 200){
-			//do things w response
-			$('#view').html(xhr.responseText);
-			// manipulate Genre view
-			getGenres();
-			$('#addGenre').on('click', addGenre);
-		}
-	}
-	xhr.open("GET", "genre.view", true);
-	xhr.send();	
-}
-
-function getGenres(){
-	//send request to /genres
-	var xhr = new XMLHttpRequest();
-	xhr.onreadystatechange = function(){
-		if(xhr.readyState == 4 && xhr.status == 200){
 			console.log(xhr.responseText);
-			let genres = JSON.parse(xhr.responseText);
-			for(let g of genres){
-				var li = $(`<li>${g.name}</li>`);
-				$('#userList').append(li);
+			getTickets();
+		}
+	}
+	xhr.open("GET", "reimbursement.view", true);
+	xhr.send();	
+}
+
+function getTickets(){
+	//send request to /reimbursements
+	var xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function(){
+		if(xhr.readyState == 4 && xhr.status == 200){
+			
+			let reims = JSON.parse(xhr.responseText);
+			console.log(reims);
+			
+			for(let r of reims){
+				appendToTicketList(r);
 			}
 		}
 	}
-	xhr.open("GET", "genres");
+	xhr.open("GET", "reimbursements");
 	xhr.send();
 }
 
-function appendToGenreList(g) {
-	
-	
-	
+function appendToTicketList(r){
+	var li = $(`<li>${r.reimbSubmitted}</li>`);
+	$('#reimbursementList').append(li);
+}
+
+function loadUserView(){
+	var xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function(){
+		if(xhr.readyState == 4 && xhr.status == 200){
+			//do things w response
+			$('#view').html(xhr.responseText);
+			// manipulate user view
+			getUsers();
+			$('#addUser').on('click', addUser);
+		}
+	}
+	xhr.open("GET", "user.view", true);
+	xhr.send();	
+}
+
+function getUsers(){
+	//send request to /users
+	var xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function(){
+		if(xhr.readyState == 4 && xhr.status == 200){
+		
+			let users = JSON.parse(xhr.responseText);
+		
+			$('#userName').html(`Welcome${users.firstName}`);
+			for(let u of users){
+				appendToUserList(u);
+			}
+		}
+	}
+	xhr.open("GET", "users");
+	xhr.send();
+}
+
+function appendToUserList(u){
+	var li = $(`<li>${u.firstName}</li>`);
+	$('#userList').append(li);
 }
 
 
-function addGenre(){
+function addUser(){
 	
-	var genre = $('#newGenre').val();
+	var genre = $('#newUser').val();
 	var obj = {
 			name: genre
 	};
-	
 	var toSend = JSON.stringify(obj);
 	
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function(){
-            // define functionality for response
-            if(xhr.readyState == 4){
-                console.log(xhr.getAllResponseHeaders());
-                //check response status 
-                console.log(xhr.status);
-                console.log(xhr.responseText);
-                console.log(xhr.responseType);
-                appendToGenreList(obj);
-            }
-        }
-       
-        xhr.open("POST", "genres");
-        
-        xhr.setRequestHeader("Content-type", "application/json");
-        
-        xhr.send(toSend);//send our object as a JSON string to server 
-        console.log(toSend);
+	var xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function(){
+		if(xhr.readyState == 4){
+			console.log(xhr.status);
+			console.log(xhr.responseText);
+			console.log(xhr.responseType);
+			appendToGenreList(obj);
+		}
+	}
+	xhr.open("POST", "users");
+	xhr.setRequestHeader("Content-Type", "application/json");
+	xhr.send(toSend);
 
 }
 
